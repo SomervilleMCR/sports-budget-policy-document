@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 4
+---------
+- Added gitignore
+- Update tex structure
+
 Version 3
 ---------
 - Minor changes
