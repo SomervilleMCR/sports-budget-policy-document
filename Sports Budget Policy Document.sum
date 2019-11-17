@@ -1,0 +1,22 @@
+
+!!! Encountered \end without corresponding \begin !!!
+File: Sports Budget Policy Document.tex
+Encoding: ascii
+Words in text: 2109
+Words in headers: 18
+Words outside text (captions, etc.): 0
+Number of headers: 7
+Number of floats/tables/figures: 0
+Number of math inlines: 0
+Number of math displayed: 0
+Subcounts:
+  text+headers+captions (#headers/#floats/#inlines/#displayed)
+  6+4+0 (1/0/0/0) _top_
+  190+1+0 (1/0/0/0) Section: Preamble
+  759+1+0 (1/0/0/0) Section: Details
+  732+7+0 (1/0/0/0) Section: What Can and Cannot Be Claimed For
+  310+2+0 (1/0/0/0) Section: Additional Factors
+  44+2+0 (1/0/0/0) Section: Maximum Reimbursements
+  68+1+0 (1/0/0/0) Section: Pre-Approvals
+
+(errors:1)

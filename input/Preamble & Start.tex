@@ -1,205 +1,279 @@
 %
 % documentclass
 %
-\documentclass[12pt,twoside]{article} %size of font and type of layout
+\documentclass[12pt,twoside]{article}
+
+%
+% paragraphs' style
+%
+\linespread{1.5} %line spacing
+\setlength{\parskip}{12pt} %space betwn paragraphs
+\setlength{\parindent}{0pt} %indent of first line of paragraph
 
 %
 % packages
 %
-\linespread{1.5} %line spacing
-\setlength{\parindent}{0pt} %indent of first line of paragraph
-\setlength{\parskip}{12pt} %space between paragraphs
-\usepackage{hyphenat} %use \nohyphens{} to get rid of hyphenation at line breaks
-\usepackage[bottom]{footmisc} %move footnotes to the bottom of the page (as opposed to having them 'stick' to the text)
 \usepackage{titletoc} %have '\startcontents' TOCs. Must be loaded before 'hyperref'
 \usepackage[hidelinks]{hyperref} %hyperlinks in pdf & use \urlstyle{same}
-	\urlstyle{same} %have URLs be in the normal document font
+    \urlstyle{same} %have URLs be in the normal document font
 \usepackage{url} %URLs can break lines
+\usepackage{hyphenat} %use \nohyphens{} to stop hyphenation at line breaks
+\usepackage[bottom]{footmisc} %move footnotes to the bottom of the page
+                              %(as opposed to them 'sticking' to the text)
 \usepackage[nodayofweek]{datetime} %use \today to get the date
 \usepackage[UKenglish]{isodate} %change date format
-	\cleanlookdateon %remove current date format to replace with [UKenglish]{isodate}
+    \cleanlookdateon %replace current date format with [UKenglish]{isodate}\usepackage{fontspec} %this only works with LuaTeX or
+                      %XeTeX, not pdfTeX
+    % \setmainfont{Calibri.ttf} %use this if Calibri.ttf is in the cwd
+\usepackage[space]{grffile} %have spaces in the filepaths in luatex
 \usepackage{blindtext} %use blindtext
 \usepackage{soul} %use \ul to underline and still be able to linebreak
 \usepackage{color} %use \textcolor{blue}{text}
-\usepackage[dvipsnames]{xcolor} %use standard colours (https://en.wikibooks.org/wiki/LaTeX/Colors)
+\usepackage[dvipsnames]{xcolor} %use standard colours
+                                %(https://en.wikibooks.org/wiki/LaTeX/Colors)
+\usepackage{tcolorbox} %make coloured boxes
+\usepackage{colortbl} %use \cellcolor{} to have coloured table cells
 \usepackage{bold-extra} %use \bfseries{\scshape{}} to get bold, small caps
 \usepackage{xfrac} %use \sfrac for slanted fractions, e.g. with units
-\usepackage{pgf} %do simple calculations using \pgfmathparse{int(round(87/17))}\pgfmathresult
-\usepackage{amsmath} %use \begin{equation*} for unnumbered equations and \begin{flalign*} for left justified displayed equations
-\usepackage{wasysym} %access to more symbols, e.g. \diameter. Must be used after 'amsmath'
+\usepackage{pgf} %do simple calculations
+\usepackage{amsmath} %use \begin{equation*} for unnumbered equations and
+                     %\begin{flalign*} for left justified equations
+\usepackage{wasysym} %access to more symbols, e.g. \diameter
+                     %must be used after 'amsmath'
 \usepackage{textcomp} %some more symbols, such as \ and \textdegree\
 \usepackage{gensymb} %some more symbols, e.g. $\degree$
 \usepackage{amssymb} %some more symbols, e.g. $\therefore$
 \usepackage{filecontents} %output to a file
-\usepackage{pdfpages} %use \inclupdf{} to include pdfs
+\usepackage{verbatim} %print exact output
+\usepackage{pdfpages} %use \includepdf{} to include pdfs
 \usepackage{afterpage} %add in blank pages
 \usepackage{changepage} %use \checkoddpage, \ifoddpage, \else, \fi
-	\strictpagecheck
-\usepackage{ulem} %use \sout for strikeouts
+    \strictpagecheck
+\usepackage[normalem]{ulem} %use \sout for strikeouts. The normalem option
+                            %is needed for compatibility with latexdiff
 \usepackage{framed} %use shaded environment
+\usepackage{tikz} %draw figures, flowcharts, etc
 \providecommand{\tightlist}{%needed for pandoc converstions of .md to .tex
-	\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 \usepackage{fancyvrb} %for pweaving
 % \usepackage{palatino} %for pweaving
-\usepackage{upgreek} %for upright Greek letters; \textmu, \textbeta, \upmu, \upbeta etc
-\usepackage{listings} %use \begin{lstlisting}[language=python] for syntax highlighting for code
+\usepackage{upgreek} %for upright Greek letters:
+                     %\textmu, \textbeta, \upmu, \upbeta, etc
+\usepackage{listings} %use \begin{lstlisting}[language=python] for syntax
+                      %highlighting for code
+
+%
+% wordcount
+%
+% Run texcount on tex-file and write results to a sum-file
+\immediate\write18{texcount \jobname.tex -out=\jobname.sum}
+% Define macro \wordcount for including the counts
+\newcommand\wordcount{\verbatiminput{\jobname.sum}}
 
 %
 % page dimensions
 %
 \usepackage{pdflscape} %use \begin{landscape} to add a landscape page
-\usepackage[a4paper,left=72pt,right=72pt,top=60pt,bottom=94pt,footskip=50pt]{geometry} %use \newgeometry{margin=24pt} and \restoregeometry
+\usepackage[a4paper,left=72pt,right=72pt,top=96pt,bottom=90pt,footskip=30pt,headheight=14.5pt]{geometry} %use \newgeometry{margin=24pt} and \restoregeometry
 
 %
-% headers/footers
+% headers & footers
 %
-\usepackage{lastpage} %be able to use \pageref{LastPage}
+\usepackage{lastpage} %use \pageref{LastPage}
 \usepackage{fancyhdr} %have fancyhdr headers & footers
 \fancypagestyle{subsequentpages}{%
-	\fancyhf{}% Clear header/footer
-	\fancyfoot[LE]{\thepage\ of \pageref{LastPage} \textbar}
-	\fancyfoot[RO]{\textbar\ \thepage\ of \pageref{LastPage}}
-	\renewcommand{\headrulewidth}{0pt} %header rule
+    \fancyhf{}% Clear header/footer
+    \fancyfoot[LE]{\thepage\ of \pageref{LastPage}\ \textbar}
+    \fancyfoot[RO]{\textbar\ \thepage\ of \pageref{LastPage}}
+    \renewcommand{\headrulewidth}{0.2pt} %header rule
 }
 \pagestyle{subsequentpages} %subsequent pages' header/footer
+\fancypagestyle{firstpage}{%
+    \fancyhf{}% Clear header/footer
+    \fancyfoot[LE]{\thepage\ of \pageref{LastPage} \textbar}
+    \fancyfoot[RO]{\textbar\ \thepage\ of \pageref{LastPage}}
+    \renewcommand{\headrulewidth}{0pt} %header rule
+}
+\thispagestyle{firstpage}
+%the following \renewcommands need to come after the pagestyle definitions
+\renewcommand{\MakeUppercase}[1]{#1} %make \MakeUppercase not do anything
+                                     %this means "table of contents" in the
+                                     %header will be sentancecase
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}{}} %the format of
+                                     %section names in headers
 
 %
 % table of contents
 %
 \usepackage{tocloft} %more control over table of contents, list of figures, etc
-	\renewcommand\cftsecafterpnum{\vskip0pt} %change spacing in toc
-	\renewcommand\cftsubsecafterpnum{\vskip0pt} %change spacing in toc
+    \renewcommand\cftsecafterpnum{\vskip0pt} %change section spacing in toc
+    \renewcommand\cftsubsecafterpnum{\vskip0pt} %change subsection spacing in toc
 
 %
 % heading spacings
 %
-\usepackage{titlesec} %be able to change title settings
-	\titleformat{\section} %edit section titles
-		[block] %shape
-		{\linespread{1}\normalfont\bfseries\raggedright\Large} %format
-		{\thesection.} %label
-		{10pt} %hspace
-		{} %before-code
-		[] %after-code
-	\titleformat{\subsection} %edit subsection titles
-		[block] %shape
-		{\linespread{1}\normalfont\bfseries\raggedright\large} %format
-		{\hspace{24pt}\thesubsection.} %label
-		{10pt} %hspace
-		{} %before-code
-		[] %after-code
-	\titleformat{\subsubsection} %edit subsubsection titles
-		[block] %shape
-		{\linespread{1}\normalfont\bfseries\raggedright\normalsize} %format
-		{\hspace{48pt}\thesubsubsection.} %label
-		{10pt} %hspace
-		{} %before-code
-		[] %after-code
-	\titleformat{\paragraph} %edit paragraph titles
-		[block] %shape
-		{\linespread{1}\normalfont\bfseries\raggedright\normalsize} %format
-		{} %label
-		{} %hspace
-		{} %before-code
-		[\vspace{-12pt}] %after-code
-	\titleformat{\subparagraph} %edit paragraph titles
-		[block] %shape
-		{\linespread{1}\normalfont\raggedright\normalsize} %format
-		{} %label
-		{} %hspace
-		{} %before-code
-		[\vspace{-6pt}] %after-code
-	\titlespacing{\section}      {0pt}{22pt}{ 0pt} %spacing before/after section title
-	\titlespacing{\subsection}   {0pt}{ 9pt}{-6pt} %spacing before/after subsection title
-	\titlespacing{\subsubsection}{0pt}{ 9pt}{-6pt} %spacing before/after subsubsection title
+\usepackage{titlesec} %change title settings
+
+    \titleformat{\section} %edit section titles
+        [block] %shape
+        {\linespread{1}\normalfont\bfseries\raggedright\Large} %format
+        {\thesection.} %label
+        {10pt} %hspace
+        {} %before-code
+        [] %after-code
+    \titleformat{\subsection} %edit subsection titles
+        [block] %shape
+        {\linespread{1}\normalfont\bfseries\raggedright\large} %format
+        {\hspace{24pt}\thesubsection.} %label
+        {10pt} %hspace
+        {} %before-code
+        [] %after-code
+    \titleformat{\subsubsection} %edit subsubsection titles
+        [block] %shape
+        {\linespread{1}\normalfont\bfseries\raggedright\normalsize} %format
+        {\hspace{48pt}\thesubsubsection.} %label
+        {10pt} %hspace
+        {} %before-code
+        [] %after-code
+    \titleformat{\paragraph} %edit paragraph titles
+        [block] %shape
+        {\linespread{1}\normalfont\bfseries\raggedright\normalsize} %format
+        {} %label
+        {} %hspace
+        {} %before-code
+        [\vspace{-12pt}] %after-code
+    \titleformat{\subparagraph} %edit paragraph titles
+        [block] %shape
+        {\linespread{1}\normalfont\raggedright\normalsize} %format
+        {} %label
+        {} %hspace
+        {} %before-code
+        [\vspace{-6pt}] %after-code
+    \titlespacing{\section}      {0pt}{22pt}{ 0pt} %spacing before/after section title
+    \titlespacing{\subsection}   {0pt}{ 9pt}{-6pt} %spacing before/after subsection title
+    \titlespacing{\subsubsection}{0pt}{ 9pt}{-6pt} %spacing before/after subsubsection title
 
 %
 % lists
 %
-\usepackage{fmtcount,environ} %code that allows us to make getreference lists
-	\makeatletter
-	\NewEnviron{getreference}
-	{\let\latex@label\label\let\label\@gobble\global\let\printnumber\relax
-		\setbox0=\vbox{\@tempswafalse\if@nobreak\@tempswatrue\fi
-			\BODY\xdef\printnumber{\noexpand\numberstringnum{\number\value{enumi}}}
-			\if@tempswa\aftergroup\@afterheading\fi
-		}%
-		\let\label\latex@label
-		\BODY}
-	\makeatother
-\usepackage{enumitem} %change counter style with \begin{enumerate}[label=(\alph*)] and others
+\usepackage{fmtcount,environ}
+    %code that allows us to make getreference lists
+    \makeatletter
+    \NewEnviron{getreference}
+    {\let\latex@label\label\let\label\@gobble\global\let\printnumber\relax
+        \setbox0=\vbox{\@tempswafalse\if@nobreak\@tempswatrue\fi
+            \BODY\xdef\printnumber{\noexpand\numberstringnum{\number\value{enumi}}}
+            \if@tempswa\aftergroup\@afterheading\fi
+        }%
+        \let\label\latex@label
+        \BODY}
+    \makeatother
+\usepackage{enumitem} %change counter style with
+                      %\begin{enumerate}[label=(\alph*)] and others
+    \setlist[itemize]{itemsep=-3pt,nolistsep} %set spacing between items
+                                              %in bulleted lists
+    \setlist[enumerate]{itemsep=-3pt,nolistsep} %set spacing between items
+                                                %in numbered lists
+\AtBeginEnvironment{itemize}{\vspace{0pt}} %space before bulleted lists (can make the start of nested lists look weird)
+\AtEndEnvironment{itemize}{\vspace{0pt}} %spacing after bulleted lists
+\AtBeginEnvironment{enumerate}{\vspace{0pt}} %spacing before numbered lists (can make the start of nested lists look weird)
+\AtEndEnvironment{enumerate}{\vspace{-6pt}} %spacing after numbered lists
 
 %
 % images
 %
 \usepackage{graphicx} %have images
 \usepackage{epstopdf} %have eps images
-	\DeclareGraphicsExtensions{.pdf,.png,.jpg,.JPG,.eps} %can just give images' names
+    %can just give images' names:
+    \DeclareGraphicsExtensions{.pdf,.png,.jpg,.JPG,.eps}
 \usepackage{subcaption} %have subfigures
-\usepackage{wrapfig} %use wrapfigure to wrap text around figures
-
+\usepackage{wrapfig} %wrap text around figures
+    
 %
 % tables
 %
-\usepackage{multicol} %use \begin{multicols}{2} to have text be in multiple columns
+\usepackage{vwcol} % have offset columns
+\usepackage{multicol} %use \begin{multicols}{2} to have multiple columns
 \usepackage{multirow} %use \multirow{<num_rows>}{<width>}{<contents>}
-\usepackage{hhline} %use \hhline{==} to make double horizontal lines in tables
+\usepackage{hhline} %use \hhline{==} to make double horizontal lines
 \usepackage{tabularx} %have tabularx tables
 \usepackage{longtable} %allow tables to go over multiple pages
 \usepackage{ltxtable} %get tabularx split over pages
 \usepackage{array} %get ltxtable to work
 \usepackage{rotating} %use \begin{turn}{90} \end{turn}
 \usepackage{booktabs} %use \cmidrule{a-b}
-%\renewcommand\thetable{\Roman{table}} %make the table numbering use Roman numerals
-
+\AtBeginEnvironment{table}{\vspace{12pt}} %spacing before table
+\AtEndEnvironment{table}{\vspace{-18pt}} %spacing after table
+\AtBeginEnvironment{longtable}{\vspace{12pt}} %spacing before longtable
+                                              %(e.g. ltxtable)
+%\AtEndEnvironment doesn't work for longtable...
+%\renewcommand\thetable{\Roman{table}} %Roman numerals for table numbering
+    
 %
 % images AND tables
 %
-\usepackage{chngcntr} %be able to make figures go 1, 2, 3 instead of 1.1, 1.2, 1.3, etc
-\usepackage{setspace} %use \setstretch{} & \begin{spacing} to control line spacing
-\usepackage{float} %able to use [H] to force figures/tables to go [H]ere. Must go before \counterwithout
-\counterwithout{figure}{section} %makes figures go 1, 2, 3 instead of 1.1, 1.2, 1.3, etc
-\counterwithout{table}{section} %makes tables go 1, 2, 3 instead of 1.1, 1.2, 1.3, etc
+% These next two lines are needed before chngcntr on macOS
+% (I don't think they make a difference on other OSs)
+\let\counterwithout\relax
+\let\counterwithin\relax
+\usepackage{chngcntr} %be able to use \counterwithout
+\usepackage{setspace} %use \setstretch{} & \begin{spacing}
+\usepackage{float} %able to use [H] to force figures/tables to go [H]ere
+                   %must go before \counterwithout
+    \counterwithout{figure}{section} %makes figures go 1, 2, 3 instead of 1.1, 1.2, 1.3, etc
+    \counterwithout{table}{section} %makes tables go 1, 2, 3 instead of 1.1, 1.2, 1.3, etc
 \usepackage[labelfont=bf,justification=centering,font={it}]{caption} %control caption text
-%	\renewcommand\thetable{\Roman{table}} %make the table numbering use Roman numerals
+\AtEndEnvironment{figure}{\vspace{0pt}} %spacing after figure
 
 %
 % bibliography
 %
-\bibliographystyle{apa} %bibiography is APA style
-\usepackage{natbib} %use natbib (for APA style only)
-	\newcommand\cites[1]{\citeauthor{#1}'s\ (\citeyear{#1})} %use \cites{} to cite with the format "Mason's (1954) data..."
-	\setlength{\bibhang}{0pt} %change the hanging indent in the bibliography
 
 %
 % appendix
 %
-\usepackage{appendix} %use \appendix
+\usepackage[titletoc]{appendix} %use \appendix and \appendices
+
+%
+% custom commands
+%
+\makeatletter
+    \newcommand*{\organisation}[1]{\gdef\@organisation{#1}}
+    \newcommand*{\subtitle}[1]{\gdef\@subtitle{#1}}
+    \newcommand*{\note}[1]{\gdef\@note{#1}}
+    \newcommand*{\coursecode}[1]{\gdef\@coursecode{#1}}
+    \newcommand*{\coursename}[1]{\gdef\@coursename{#1}}
+    \newcommand*{\studnum}[1]{\gdef\@studnum{#1}}
+\makeatother
+
+%
+% watermark
+%
+\newif\ifDraft
+\Draftfalse %do you want to see the wordcount?
+\ifDraft
+\usepackage{draftwatermark} %have a watermark
+\SetWatermarkText{DRAFT}
+\SetWatermarkScale{10}
+\fi
 
 %
 % begin
 %
 \begin{document}
-\raggedbottom %stop pages increasing the space between paragraphs to fill up the page
-\hyphenpenalty=1000 %increase this to decrease the likelihood of hyphenated linebreaks
-\tolerance    =1000 %decrease to lower the allowance for uneven spacings between words
+\raggedbottom %stop increasing space between paragraphs to fill up page
+\hyphenpenalty=1000 %decrease the likelihood of hyphenated linebreaks
+\tolerance=1000 %decrease the allowance for uneven spacings between words
 \let\savenumberline\numberline\def\numberline#1{\savenumberline{#1.}} %adds dot after chapter title in toc
 
 %
 % floats
 %
-\setlength\textfloatsep	{24pt plus 2pt minus 2pt} %distance between floats on the top or the bottom and the text, plus what this distance can stretch minus what it can shrink
-\setlength\floatsep    		{24pt plus 2pt minus 2pt} %distance between two adjacent floats, plus what this distance can stretch minus what it can shrink
-\setlength\intextsep   	{24pt plus 2pt minus 2pt} %distance between float and text which it is in the middle of, plus what this distance can stretch minus what it can shrink
-
-%
-% spacing
-%
-\AtEndEnvironment{figure}{\vspace{0pt}} %spacing after figure
-\AtBeginEnvironment{table}{\vspace{12pt}} %spacing before table
-\AtEndEnvironment{table}{\vspace{-18pt}} %spacing after table
-\AtBeginEnvironment{longtable}{\vspace{12pt}} %spacing before longtable (e.g. ltxtable). \AtEndEnvironment doesn't work for longtable...
-\AtBeginEnvironment{itemize}{\itemsep -12pt \parskip 0pt \vspace{0pt}} %spacing before itemize lists
-\AtEndEnvironment{itemize}{\vspace{-0pt}} %spacing after itemize lists
-\AtBeginEnvironment{enumerate}{\itemsep -12pt \parskip 0pt \vspace{0pt}} %spacing before enumerate lists
-\AtEndEnvironment{enumerate}{\vspace{-12pt}} %spacing after enumerate lists
+\setlength\textfloatsep{24pt plus 2pt minus 2pt} %distance between floats
+% on the top or the bottom and the text, plus what this distance can
+% stretch minus what it can shrink
+\setlength\floatsep{24pt plus 2pt minus 2pt} %distance between two adjacent
+% floats, plus what this distance can stretch minus what it can shrink
+\setlength\intextsep{24pt plus 2pt minus 2pt} %distance between float and
+% text which it is in the middle of, plus what this distance can stretch
+% minus what it can shrink

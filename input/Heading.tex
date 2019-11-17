@@ -1,14 +1,23 @@
-%
-% heading
-%
-\vspace*{-36pt}
+\makeatletter
+	\begin{wrapfigure}{l}{72pt}
+		\vspace{-0.5pc}
+		\includegraphics[height=86pt]{"input/Logo"}
+	\end{wrapfigure}
+	\ifx\@organisation\@empty%
+	\else%
+		\bf\Large\@organisation\\%
+	\fi%
+	\bf\LARGE\@title%
+	\normalsize\mdseries%
+	\ifx\@subtitle\@empty%
+	\else%
+		\\[-3pt]\bf\@subtitle%
+	\fi%
+	\normalfont
+\makeatother
+
+\vspace{-30pt}
+
 \begin{center}
-	\thedate
-	\vspace{11pt}
-	\\\linespread{1}\huge\textbf{\doctitle\\{\large\comment}}
-	\vspace{11pt}
-	\\\linespread{1.5}\normalsize \docauthor
+	\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
 \end{center}
-\vspace{-18pt}
-\noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
-\vspace{-18pt}
